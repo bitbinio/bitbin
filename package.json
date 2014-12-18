@@ -1,0 +1,14 @@
+{
+  "name": "badassets",
+  "version": "0.0.1",
+  "description": "Program to manage binary assets.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.5.1"
+  }
+}

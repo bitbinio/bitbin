@@ -1,0 +1,11 @@
+{
+    "adapter": "S3",
+    "options": {
+        "key": "",
+        "secret": ""
+    },
+    "paths": [
+        "./img"
+    ],
+    "files": []
+}
