@@ -2,6 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var crypto = require('crypto');
 var glob = require('glob');
+var junk = require('junk');
 module.exports = function() {
     var config = require(__dirname + '/../../badassets.json');
     config.paths.forEach(function(entry) {
@@ -11,7 +12,7 @@ module.exports = function() {
             if (err) {
                 console.error(err);
             }
-            files.forEach(function(file) {
+            files.filter(junk.not).forEach(function(file) {
                 var sum = crypto.createHash('md5');
                 var stream = fs.ReadStream(file);
                 stream.on('data', function(chunk) {
