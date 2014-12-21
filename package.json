@@ -9,6 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "commander": "^2.5.1"
+    "commander": "^2.5.1",
+    "glob": "^4.3.1"
   }
 }
