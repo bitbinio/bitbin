@@ -8,7 +8,11 @@ command
 
 command
     .command('install')
-    .description('Synchronize remote binary files to be in line with the manifest.')
+    .description('Synchronize local binary files from publisher adapter.')
     .action(require('./commands/install'));
+command
+    .command('publish')
+    .description('Synchronize remote binary files to the publisher adapter.')
+    .action(require('./commands/publish'));
 
 command.parse(process.argv);
