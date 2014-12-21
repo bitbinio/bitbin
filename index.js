@@ -9,10 +9,10 @@ command
 command
     .command('install')
     .description('Synchronize local binary files from publisher adapter.')
-    .action(require('./commands/install'));
+    .action(require('./src/commands/install'));
 command
     .command('publish')
     .description('Synchronize remote binary files to the publisher adapter.')
-    .action(require('./commands/publish'));
+    .action(require('./src/commands/publish'));
 
 command.parse(process.argv);
