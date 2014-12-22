@@ -16,6 +16,9 @@ var hashStream = function(file) {
 	var fd = fs.ReadStream(file);
 	var hash = crypto.createHash('md5');
 	fd.pipe(hash);
+	fd.on('error', function(err) {
+		deferred.reject(err);
+	});
 	fd.on('end', function() {
 		hash.end();
 		deferred.resolve(hash.read().toString('hex'));

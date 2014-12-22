@@ -7,5 +7,8 @@ describe('md5', function() {
             var md5hash = '77284ae4aac90cd005586850dce5fbd9';
             md5.computeFromFile(file).should.eventually.equal(md5hash).notify(done);
         });
+        it('should reject files not found', function(done) {
+            md5.computeFromFile('nonexistent').should.be.rejected.notify(done);
+        });
     });
 });
