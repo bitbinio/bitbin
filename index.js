@@ -1,6 +1,8 @@
 var pkg = require('./package.json');
 var command = require('commander');
 
+var container = require('./src/bootstrap')();
+
 process.title = pkg.name;
 
 command
@@ -13,6 +15,6 @@ command
 command
     .command('publish')
     .description('Synchronize remote binary files to the publisher adapter.')
-    .action(require('./src/commands/publish'));
+    .action(container.command.publish.handle.bind(container.command.publish));
 
 command.parse(process.argv);
