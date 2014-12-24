@@ -1,43 +1,52 @@
 var path = require('path');
 var fs = require('fs');
-var glob = require('glob');
-var junk = require('junk');
+var Q = require('q');
 
-var Publish = function(md5) {
+var Publish = function(config, manifest, md5) {
+    this.config = config;
+    this.manifest = manifest;
     this.md5 = md5;
 };
 
 Publish.prototype.handle = function() {
-    var config = require(__dirname + '/../../badassets.json');
     var md5 = this.md5;
-    config.paths.forEach(function(entry) {
-        var cwd = process.cwd();
-        glob(entry, {nodir: true}, function(err, files) {
-            if (err) {
-                console.error(err);
-            }
-            files.filter(junk.not).forEach(function(file) {
-                md5.computeFromFile(cwd + '/' + file).then(function(sum) {
-                    config.files.push({
-                        name: file,
-                        version: 1,
-                        canonical: file,
-                        hash: sum
-                    });
-                    fs.writeFile(path.resolve(__dirname + '/../../badassets.json'), JSON.stringify(config, null, 4), function(err) {
-                        if (err) {
-                            console.error(err);
-                        }
-                        console.log(config);
-                        console.log('Publish complete.');
-                    });
-                });
+    var cwd = process.cwd();
+    this.manifest.localFiles()
+        // @todo move to manifest lib
+        // compute md5 hashes
+        .then(function(files) {
+            var sumPromises = [];
+            files.forEach(function(file) {
+                sumPromises.push(md5.computeFromFile(cwd + '/' + file));
             });
+            return Q.all(sumPromises)
+                // map the sums
+                .then(function(data) {
+                    var entries = [];
+                    files.forEach(function(entry, i) {
+                        entries.push({
+                            name: entry,
+                            hash: data[i],
+                            canonical: entry
+                        });
+                    });
+                    return entries;
+                });
+        })
+        .then(this.manifest.filterInManifest.bind(this.manifest))
+        // @todo filter out files already existing in upload adapter
+        // @todo upload all remaining files
+        // @todo update manifest file
+        .then(function(data) {
+            console.log(JSON.stringify(data, null, 4));
+        })
+        // @todo upload files to adapter
+        .done(function() {
+            console.log('Publish complete');
         });
-    });
 };
 
 module.exports = Publish;
 module.exports.$name = 'command.publish';
 module.exports.$type = 'service';
-module.exports.$inject = ['md5'];
+module.exports.$inject = ['config', 'manifest', 'md5'];
