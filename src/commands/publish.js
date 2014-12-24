@@ -1,5 +1,4 @@
-var Publish = function(config, manifest) {
-    this.config = config;
+var Publish = function(manifest) {
     this.manifest = manifest;
 };
 
@@ -27,4 +26,4 @@ Publish.prototype.handle = function() {
 module.exports = Publish;
 module.exports.$name = 'command.publish';
 module.exports.$type = 'service';
-module.exports.$inject = ['config', 'manifest'];
+module.exports.$inject = ['manifest'];
