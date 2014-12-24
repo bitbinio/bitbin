@@ -1,3 +1,4 @@
+var Q = require('q');
 var cachedConfig;
 
 var Config = function(fs) {
@@ -11,6 +12,8 @@ Config.prototype.retrieve = function() {
     return cachedConfig = JSON.parse(this.fs.readFileSync(process.cwd() + '/badassets.json'));
 };
 
+Config.prototype.write = function(config) {
+    return Q.nfcall(this.fs.writeFile, process.cow() + '/badassets.json', JSON.stringify(config, null, 4));
 };
 
 module.exports = Config;
