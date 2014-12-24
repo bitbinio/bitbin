@@ -4,7 +4,6 @@ var Publish = function(config, manifest) {
 };
 
 Publish.prototype.handle = function() {
-    var cwd = process.cwd();
     this.manifest.localFiles()
         .then(this.manifest.transposeWithMD5.bind(this.manifest))
         .then(this.manifest.filterInManifest.bind(this.manifest))
