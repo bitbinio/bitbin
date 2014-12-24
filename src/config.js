@@ -13,7 +13,7 @@ Config.prototype.retrieve = function() {
 };
 
 Config.prototype.write = function(config) {
-    return Q.nfcall(this.fs.writeFile, process.cow() + '/badassets.json', JSON.stringify(config, null, 4));
+    return Q.nfcall(this.fs.writeFile, process.cwd() + '/badassets.json', JSON.stringify(config, null, 4));
 };
 
 module.exports = Config;
