@@ -32,6 +32,34 @@ Manifest.prototype.localFiles = function() {
 };
 
 /**
+ * Compute MD5 hashes for all files and transposes the data into array of objects.
+ *
+ * @param array files
+ * @return promise
+ */
+Manifest.prototype.transposeWithMD5 = function(files) {
+    var sumPromises = [];
+    var md5 = this.md5;
+    var cwd = process.cwd();
+    files.forEach(function(file) {
+        sumPromises.push(md5.computeFromFile(cwd + '/' + file));
+    });
+    return Q.all(sumPromises)
+        // map the sums
+        .then(function(data) {
+            var entries = [];
+            files.forEach(function(entry, i) {
+                entries.push({
+                    name: entry,
+                    hash: data[i],
+                    canonical: entry
+                });
+            });
+            return entries;
+        });
+};
+
+/**
  * Filter the provided files based on files already in the manifest.
  *
  * @param Array files

@@ -16,9 +16,10 @@ var config = {
 var glob = function(path, opts, callback) {
     callback(null, ['imagea.jpg']);
 };
+var md5 = require(__dirname + '/../src/md5')();
 
 describe('manifest', function() {
-    var manifest = new Manifest(config, null, glob);
+    var manifest = new Manifest(config, md5, glob);
     describe('#localFiles', function() {
         it('should produce an array of files based on config paths', function(done) {
             manifest.localFiles().should.eventually.have.length(2).notify(done);
@@ -35,5 +36,21 @@ describe('manifest', function() {
             assert(manifest.filterInManifest(b).length === 1, 'Should not filer anything');
             done();
         });
+    });
+    describe('#transposeWithMD5', function() {
+        var files = ['test/fixture/md5test.txt'];
+        it('should transpose and remain the same array length', function(done) {
+            manifest.transposeWithMD5(files).should.eventually.have.length(1).notify(done);
+        });
+        it ('should transpose a file list into an array of objects containing the md5 sum', function(done) {
+            var expected = [
+                {
+                    name: 'test/fixture/md5test.txt',
+                    hash: '77284ae4aac90cd005586850dce5fbd9',
+                    canonical: 'test/fixture/md5test.txt'
+                }
+            ];
+            manifest.transposeWithMD5(files).should.eventually.be.deep.include.members(expected).notify(done);
+        })
     });
 });
