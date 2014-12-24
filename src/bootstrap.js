@@ -1,6 +1,8 @@
 var bottle = require('bottlejs')();
 
 module.exports = function() {
+    bottle.factory('node_fs', function() { return require('fs') });
+
     bottle.register(require(__dirname + '/config'));
     bottle.register(require(__dirname + '/manifest'));
     bottle.register(require(__dirname + '/md5'));

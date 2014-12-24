@@ -1,16 +1,18 @@
 var cachedConfig;
 
-var retrieveConfig = function() {
+var Config = function(fs) {
+    this.fs = fs;
+};
+
+Config.prototype.retrieve = function() {
     if (cachedConfig) {
         return cachedConfig;
     }
-    return cachedConfig = require(__dirname + '/../badassets.json');
+    return cachedConfig = JSON.parse(this.fs.readFileSync(process.cwd() + '/badassets.json'));
 };
 
-module.exports = function() {
-    return Object.create({
-        retrieve: retrieveConfig
-    });
 };
+
+module.exports = Config;
 module.exports.$name = 'config';
-module.exports.$type = 'factory';
+module.exports.$inject = ['node_fs'];
