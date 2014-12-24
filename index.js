@@ -9,10 +9,6 @@ command
     .version(pkg.version);
 
 command
-    .command('install')
-    .description('Synchronize local binary files from publisher adapter.')
-    .action(require('./src/commands/install'));
-command
     .command('publish')
     .description('Synchronize remote binary files to the publisher adapter.')
     .action(container.command.publish.handle.bind(container.command.publish));
