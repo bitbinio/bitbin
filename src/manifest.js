@@ -66,7 +66,7 @@ Manifest.prototype.transposeWithMD5 = function(files) {
  * @return array
  */
 Manifest.prototype.filterInManifest = function(files) {
-    var manifestFiles = this.config.retrieve().files;
+    var manifestFiles = this.config.retrieve().files || [];
     return files.filter(function(file) {
         return !manifestFiles.some(function(entry) {
             return entry.name === file.name && entry.hash === file.hash;
