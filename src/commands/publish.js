@@ -7,8 +7,7 @@ Publish.prototype.handle = function() {
     this.manifest.localFiles()
         .then(this.manifest.transposeWithMD5.bind(this.manifest))
         .then(this.manifest.filterInManifest.bind(this.manifest))
-
-        // @todo filter out files already existing in upload adapter
+        .then(this.adapter.filterExisting.bind(this.adapter))
         // @todo upload all remaining files
         // @todo update filenames with versions
         // @todo update manifest file
@@ -23,7 +22,6 @@ Publish.prototype.handle = function() {
             console.error(e.message);
             process.exit(1);
         })
-        // @todo upload files to adapter
         .done(function() {
             console.log('\nPublish complete');
         });

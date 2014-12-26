@@ -7,6 +7,17 @@ var LocalAdapter = function(fs) {
 
 util.inherits(LocalAdapter, BaseAdapter);
 
+/**
+ * Filter files already existing in the upstream.
+ *
+ * @param array files
+ * @return array
+ * @todo implement It is just passing through for now.
+ */
+LocalAdapter.prototype.filterExisting = function(files) {
+    return files;
+};
+
 module.exports = function(container) {
     return new LocalAdapter(container.node.fs);
 };
