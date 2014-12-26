@@ -17,6 +17,10 @@ Publish.prototype.handle = function() {
             });
             console.log(JSON.stringify(updated, null, 4));
         })
+        .catch(function(e) {
+            console.error(e.message);
+            process.exit(1);
+        })
         // @todo upload files to adapter
         .done(function() {
             console.log('\nPublish complete');

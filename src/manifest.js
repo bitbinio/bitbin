@@ -22,13 +22,17 @@ Manifest.prototype.localFiles = function() {
     this.config.retrieve().paths.forEach(function(path) {
         pathPromises.push(Q.nfcall(glob, path, {nodir: true}).then(filterJunk));
     });
-    return Q.all(pathPromises)
-        // flatten all the path files down to one array of files.
-        .then(function(fileGroups) {
-            return fileGroups.reduce(function(a, b) {
-                return a.concat(b);
+    return !pathPromises.length ? 
+        Q.fcall(function() {
+            throw new Error('No paths defined.');
+        }) :
+        Q.all(pathPromises)
+            // flatten all the path files down to one array of files.
+            .then(function(fileGroups) {
+                return fileGroups.reduce(function(a, b) {
+                    return a.concat(b);
+                });
             });
-        });
 };
 
 /**
