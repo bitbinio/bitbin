@@ -1,6 +1,9 @@
 // @todo adapt this to a file checker on an adapter folder.
-var builtIn = ['S3'];
 var BaseAdapter = require('./base_adapter');
+var builtIn = [
+    'S3',
+    'local'
+];
 
 var AdapterInjector = function(config) {
     this.config = config;
