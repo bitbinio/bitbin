@@ -8,6 +8,8 @@ for your deployments.
 
 **Beware: This is pre-alpha software**
 
+## Commands
+
 ### Init
 
 The `init` command inquires certian information and generates the initial `badassets.json` for managing assets.
@@ -22,3 +24,15 @@ What about conflicts?
 
 If a file exists on the remote location, the process will increment the version number and if all else fails, will abort
 operations. The thinking is to **NEVER** update/overwrite a file on the remote location, only add new files.
+
+## Adapters
+
+This library comes equiped with the following adapters:
+
+* Amazon S3 (`S3`)
+
+### Custom Adapters
+
+In the `badassets.json` configuration, you can define a path to a custom adapter that implements the following methods:
+
+_tbd_
