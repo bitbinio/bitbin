@@ -1,5 +1,6 @@
 // @todo adapt this to a file checker on an adapter folder.
 var builtIn = ['S3'];
+var BaseAdapter = require('./base_adapter');
 
 var AdapterInjector = function(config) {
     this.config = config;
@@ -20,6 +21,13 @@ AdapterInjector.prototype.inject = function() {
     try {
         adapterImpl = require(path);
         bottle.factory('adapter', adapterImpl);
+        bottle.middleware('adapter', function(adapter, next) {
+            if (!(adapter instanceof BaseAdapter)) {
+                console.error('Adapter must be an instance of base_adapter.');
+                process.exit(1);
+            }
+            next();
+        });
     } catch(e) {
         bottle.factory('adapter', function() {
             return function() {
