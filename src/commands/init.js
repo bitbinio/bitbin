@@ -41,7 +41,7 @@ Init.prototype.handle = function() {
     inquirer.prompt(questions, function(answers) {
         var config = {
             adapter: answers.adapter,
-            paths: [answers.paths]
+            paths: answers.paths.split(',')
         };
         if (isS3(answers)) {
             config.options = {
