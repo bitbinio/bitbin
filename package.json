@@ -20,7 +20,7 @@
     "url": "https://github.com/cjsaylor/badassets/issues"
   },
   "dependencies": {
-    "bottlejs": "^0.7.1",
+    "bottlejs": "^0.7.2",
     "commander": "^2.5.1",
     "glob": "^4.3.1",
     "inquirer": "^0.8.0",

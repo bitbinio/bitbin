@@ -1,4 +1,4 @@
-var fs = require('fs');
+var fs;
 var Q = require('q');
 var crypto = require('crypto');
 
@@ -31,7 +31,8 @@ var proto = {
 	computeFromFile: hashStream
 };
 
-module.exports = function() {
+module.exports = function(container) {
+	fs = container.node.fs;
 	return Object.create(proto);
 };
 module.exports.$type = 'factory';

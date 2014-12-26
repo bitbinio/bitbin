@@ -29,4 +29,4 @@ Config.prototype.write = function(config) {
 
 module.exports = Config;
 module.exports.$name = 'config';
-module.exports.$inject = ['node_fs'];
+module.exports.$inject = ['node.fs'];

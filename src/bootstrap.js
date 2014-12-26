@@ -1,7 +1,7 @@
 var bottle = require('bottlejs').pop('main');
 
 module.exports = function() {
-    bottle.factory('node_fs', function() { return require('fs') });
+    bottle.factory('node.fs', function() { return require('fs') });
 
     bottle.register(require(__dirname + '/adapter_injector'));
     bottle.register(require(__dirname + '/config'));
