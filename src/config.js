@@ -1,15 +1,26 @@
 var Q = require('q');
 var cachedConfig;
+var defaultConfig = {
+    adapter: '',
+    paths: [],
+    isDefault: true
+};
 
 var Config = function(fs) {
     this.fs = fs;
 };
 
 Config.prototype.retrieve = function() {
+    var config;
     if (cachedConfig) {
         return cachedConfig;
     }
-    return cachedConfig = JSON.parse(this.fs.readFileSync(process.cwd() + '/badassets.json'));
+    try {
+        cachedConfig = JSON.parse(this.fs.readFileSync(process.cwd() + '/badassets.json'));
+    } catch (e) {
+        cachedConfig = defaultConfig;
+    }
+    return cachedConfig;
 };
 
 Config.prototype.write = function(config) {
