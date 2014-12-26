@@ -6,13 +6,14 @@ var AdapterInjector = function(config) {
 };
 
 AdapterInjector.prototype.inject = function() {
-    var adapter = this.config.retrieve().adapter;
+    var config = this.config.retrieve();
+    var adapter = config.adapter;
     var bottle = require('bottlejs').pop('main');
     var adapterImpl;
     var path = builtIn.indexOf(adapter) >= 0 ?
         __dirname + '/adapters/' + adapter :
         adapter;
-    if (!adapter) {
+    if (!config.isDefault && !adapter) {
         console.error('No upload adapter defined.');
         process.exit(1);
     }
