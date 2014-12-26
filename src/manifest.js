@@ -1,11 +1,10 @@
 var junk = require('junk');
 var Q = require('q');
-var glob;
 
-var Manifest = function(config, md5, globLib) {
+var Manifest = function(config, md5, glob) {
     this.config = config;
     this.md5 = md5;
-    glob = globLib || require('glob');
+    this.glob = glob;
 };
 
 var filterJunk = function(files) {
@@ -19,6 +18,7 @@ var filterJunk = function(files) {
  */
 Manifest.prototype.localFiles = function() {
     var pathPromises = [];
+    var glob = this.glob;
     this.config.retrieve().paths.forEach(function(path) {
         pathPromises.push(Q.nfcall(glob, path, {nodir: true}).then(filterJunk));
     });
@@ -80,4 +80,4 @@ Manifest.prototype.filterInManifest = function(files) {
 
 module.exports = Manifest;
 module.exports.$name = 'manifest';
-module.exports.$inject = ['config', 'md5'];
+module.exports.$inject = ['config', 'md5', 'glob'];
