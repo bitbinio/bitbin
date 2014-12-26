@@ -9,6 +9,10 @@ var AdapterInjector = function(config) {
     this.config = config;
 };
 
+AdapterInjector.prototype.builtIn = function() {
+    return builtIn;
+};
+
 AdapterInjector.prototype.inject = function() {
     var config = this.config.retrieve();
     var adapter = config.adapter;
