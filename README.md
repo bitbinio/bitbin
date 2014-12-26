@@ -59,11 +59,12 @@ MyAdapter.prototype.filterExisting = function(files) {
 MyAdapter.prototype.upload = function(files) {
     // upload files
     // Update any filenames with their versioning
+    return files;
 };
 
 module.exports = function(container) {
     return new MyAdapter(
-        // inject depencies from the container provided
+        // inject dependencies from the container provided
     );
 };
 
