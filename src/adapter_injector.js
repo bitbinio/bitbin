@@ -24,12 +24,12 @@ AdapterInjector.prototype.inject = function() {
     try {
         adapterImpl = require(path);
         bottle.factory('adapter', adapterImpl);
-        bottle.middleware('adapter', function(adapter, next) {
+        bottle.decorator('adapter', function(adapter) {
             if (!(adapter instanceof BaseAdapter)) {
                 console.error('Adapter must be an instance of base_adapter.');
                 process.exit(1);
             }
-            next();
+            return adapter;
         });
     } catch(e) {
         bottle.factory('adapter', function() {
