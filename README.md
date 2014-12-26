@@ -29,10 +29,42 @@ operations. The thinking is to **NEVER** update/overwrite a file on the remote l
 
 This library comes equiped with the following adapters:
 
-* Amazon S3 (`S3`)
+* Amazon S3 (`S3`) - _to be implemented_
+* Local (`local`) - _to be implemented_
+* FTP (`ftp`) - _to be implemented_
 
 ### Custom Adapters
 
-In the `badassets.json` configuration, you can define a path to a custom adapter that implements the following methods:
+In the `badassets.json` configuration, the `adapter` property can be used to define
+a path to a custom adapter that inherits a [base adapter](https://github.com/cjsaylor/badassets/blob/master/src/base_adapter.js)
+and implements its prototypical methods.
 
-_tbd_
+#### Example custom adapter
+
+```javascript
+var util = require('util');
+var BaseAdapter = require('badassets/src/base_adapter');
+
+var MyAdapter = function() {
+    // Special constructor stuff here
+}
+
+util.inherits(MyAdapter, BaseAdapter);
+
+MyAdapter.prototype.filterExisting = function(files) {
+    // do custom filtering here
+    return files;
+};
+
+MyAdapter.prototype.upload = function(files) {
+    // upload files
+    // Update any filenames with their versioning
+};
+
+module.exports = function(container) {
+    return new MyAdapter(
+        // inject depencies from the container provided
+    );
+};
+
+```
