@@ -6,6 +6,7 @@
     "badassets": "./bin/badassets"
   },
   "main": "index.js",
+  "preferglobal": true,
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha"
   },
