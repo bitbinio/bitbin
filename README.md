@@ -19,6 +19,10 @@ The goal of this project is to solve two problems:
 
 The `init` command inquires certian information and generates the initial `badassets.json` for managing assets.
 
+### Install
+
+Copy all files not existing (or not the same) in your locally defined path from the remote adapter.
+
 ### Publish
 
 With the publish command, all files that are found different (or missing) from the files manifest that are found in the
