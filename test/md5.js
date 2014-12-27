@@ -1,4 +1,8 @@
-var md5 = require(__dirname + '/../src/md5')();
+var md5 = require(__dirname + '/../src/md5')({
+    node: {
+        fs: require('fs')
+    }
+});
 
 describe('md5', function() {
     describe('#computeFromFile', function() {

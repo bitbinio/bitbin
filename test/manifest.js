@@ -16,7 +16,11 @@ var config = {
 var glob = function(path, opts, callback) {
     callback(null, ['imagea.jpg']);
 };
-var md5 = require(__dirname + '/../src/md5')();
+var md5 = require(__dirname + '/../src/md5')({
+    node: {
+        fs: require('fs')
+    }
+});
 
 describe('manifest', function() {
     var manifest = new Manifest(config, md5, glob);
