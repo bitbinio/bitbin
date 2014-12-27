@@ -2,6 +2,8 @@
   "name": "badassets",
   "version": "0.0.1",
   "description": "Binary assets manager.",
+  "author": "Chris Saylor <cjsaylor@gmail.com>",
+  "license": "MIT",
   "bin": {
     "badassets": "./bin/badassets"
   },
@@ -14,10 +16,15 @@
     "type": "git",
     "url": "https://github.com/cjsaylor/badassets"
   },
-  "author": "Chris Saylor <cjsaylor@gmail.com>",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/cjsaylor/badassets/issues"
+  },
+  "directories": {
+    "bin": "./bin",
+    "lib": "./src"
+  },
+  "engines": {
+    "node": ">=0.10.3 <0.12"
   },
   "dependencies": {
     "bottlejs": "^0.7.2",
