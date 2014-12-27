@@ -1,10 +1,15 @@
 # Badassets
 
-Badassets is a package manager for binary files. If you are tired of having to commit your images and sounds into your
-git repo, this is for you.
+Badassets is an asset manager for binary files. If you are tired of having to commit your images, videos, and sounds into your
+git repo, this project is for you.
 
-By using a "npm"-like JSON manifest file, you can track all assets and their versions locally, and publish remotely
+By using an "npm"-style JSON manifest file, you can track all assets and their versions locally, and publish remotely
 for your deployments.
+
+The goal of this project is to solve two problems:
+
+1. Having to store large assets in source code repositories (making them slow to clone) for deployments.
+2. Redeploying changes to images and other assets tend to need some manual cache busting.
 
 **Beware: This is pre-alpha software**
 
