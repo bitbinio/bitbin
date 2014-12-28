@@ -33,4 +33,19 @@ describe('base_adapter', function() {
             expect(result).to.have.property('name', 'filename__v2.jpg');
         });
     });
+    describe('#transposeVersions', function() {
+        it('should tranpose an array of files with their respective versions.', function() {
+            var adapter = new BaseAdapter();
+            var original = [
+                {
+                    name: 'filename.jpg',
+                    hash: 'somehash'
+                }
+            ];
+            var result = adapter.transposeVersions(original);
+            expect(result).to.have.length(1);
+            expect(result[0]).to.have.property('name', 'filename__v1.jpg');
+            expect(result[0]).to.have.property('originalName', 'filename.jpg');
+        });
+    });
 });

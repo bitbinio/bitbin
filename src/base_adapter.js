@@ -49,4 +49,16 @@ BaseAdapter.prototype.upsertVersion = function(file) {
     return file;
 };
 
+/**
+ * Transpose an array of file objects to have an upserted version for the filename.
+ *
+ * See BaseAdapter#upsertVersion
+ *
+ * @param array files
+ * @return array
+ */
+BaseAdapter.prototype.transposeVersions = function(files) {
+    return files.map(this.upsertVersion.bind(this));
+};
+
 module.exports = BaseAdapter;
