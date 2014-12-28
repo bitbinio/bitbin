@@ -10,7 +10,7 @@
   "main": "index.js",
   "preferglobal": true,
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/.bin/mocha"
   },
   "repository": {
     "type": "git",
