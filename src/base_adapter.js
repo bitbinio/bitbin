@@ -31,7 +31,7 @@ var versionReplacer = function(match, base, version) {
  * @param string file
  * @return string
  */
-BaseAdapter.prototype.attachVersion = function(filename) {
+BaseAdapter.prototype.upsertVersion = function(filename) {
     var extension = path.extname(filename);
     var baseName = path.basename(filename, extension);
     return this.patterns.version.test(baseName) ?

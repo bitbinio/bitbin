@@ -1,7 +1,7 @@
 var BaseAdapter = require(__dirname + '/../src/base_adapter');
 
 describe('base_adapter', function() {
-    describe('#attachVersion', function() {
+    describe('#upsertVersion', function() {
         var adapter = new BaseAdapter();
         var expectations = [
             ['filename.jpg',      'filename__v1.jpg'],
@@ -15,11 +15,11 @@ describe('base_adapter', function() {
             ['file.name.jpg',     'file.name__v1.jpg'],
             ['file.name__v1.jpg', 'file.name__v2.jpg']
         ];
-        expectations.forEach(function(expectation, i) {
+        resolveExpectations = function(expectation, i) {
             it('should attach/update appropriate version information to the filename #' + i, function() {
-                expect(adapter.attachVersion(expectation[0])).to.equal(expectation[1]);
+                expect(adapter.upsertVersion(expectation[0])).to.equal(expectation[1]);
             });
-        });
-        
+        };
+        expectations.forEach(resolveExpectations);
     });
 });
