@@ -12,11 +12,21 @@ module.exports = function(grunt) {
                 'gruntfile.js',
                 'index.js'
             ]
+        },
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec',
+                    require: 'test/support/bootstrap'
+                },
+                src: ['test/**/*.js'],
+            }
         }
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-mocha-test');
 
-    grunt.registerTask('test', ['jshint']);
+    grunt.registerTask('test', ['jshint', 'mochaTest']);
     grunt.registerTask('ci', ['test']);
     grunt.registerTask('default', ['test']);
 };
