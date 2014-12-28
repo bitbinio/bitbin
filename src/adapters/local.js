@@ -4,6 +4,7 @@ var junk = require('junk');
 var BaseAdapter = require(__dirname + '/../base_adapter');
 
 var LocalAdapter = function(config, fs, glob, md5) {
+    BaseAdapter.apply(this, arguments);
     this.uploadPath = config.retrieve().options.uploadPath;
     this.fs = fs;
     this.glob = glob;
