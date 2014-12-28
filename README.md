@@ -1,12 +1,15 @@
-# Bitbin
+<img src="http://assets.boxmeupapp.com/img/bitbin-logo.png" alt="Bitbin" align="right">
 
 Bitbin is an asset manager for binary files. If you are tired of having to commit your images, videos, and sounds into your
 git repo, this project is for you.
+
+<p style="clear: both"></p>
 
 By using an "npm"-style JSON manifest file, you can track all assets and their versions locally, and publish remotely
 for your deployments.
 
 The goal of this project is to solve two problems:
+
 
 1. Having to store large assets in source code repositories (making them slow to clone) for deployments.
 2. Redeploying changes to images and other assets tend to need some manual cache busting.
