@@ -1,11 +1,11 @@
 {
-  "name": "badassets",
+  "name": "bitbin",
   "version": "0.0.1",
   "description": "Binary assets manager.",
   "author": "Chris Saylor <cjsaylor@gmail.com>",
   "license": "MIT",
   "bin": {
-    "badassets": "./bin/badassets"
+    "bitbin": "./bin/bitbin"
   },
   "main": "index.js",
   "preferglobal": true,
@@ -14,10 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cjsaylor/badassets"
+    "url": "https://github.com/cjsaylor/bitbin"
   },
   "bugs": {
-    "url": "https://github.com/cjsaylor/badassets/issues"
+    "url": "https://github.com/cjsaylor/bitbin/issues"
   },
   "directories": {
     "bin": "./bin",

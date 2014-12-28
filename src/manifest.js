@@ -24,7 +24,7 @@ Manifest.prototype.fileList = function() {
     if (originalManifestList) {
         return Q(originalManifestList);
     }
-    return Q.nfcall(this.fs.readFile, process.cwd() + '/badassets.manifest.json')
+    return Q.nfcall(this.fs.readFile, process.cwd() + '/bitbin.manifest.json')
         .then(function(files) {
             // Cache the original list
             return originalManifestList = files;

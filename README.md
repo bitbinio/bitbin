@@ -1,6 +1,6 @@
-# Badassets
+# Bitbin
 
-Badassets is an asset manager for binary files. If you are tired of having to commit your images, videos, and sounds into your
+Bitbin is an asset manager for binary files. If you are tired of having to commit your images, videos, and sounds into your
 git repo, this project is for you.
 
 By using an "npm"-style JSON manifest file, you can track all assets and their versions locally, and publish remotely
@@ -17,7 +17,7 @@ The goal of this project is to solve two problems:
 
 ### Init
 
-The `init` command inquires certian information and generates the initial `badassets.json` for managing assets.
+The `init` command inquires certian information and generates the initial `bitbin.json` for managing assets.
 
 ### Install
 
@@ -44,15 +44,15 @@ This library comes equiped with the following adapters:
 
 ### Custom Adapters
 
-In the `badassets.json` configuration, the `adapter` property can be used to define
-a path to a custom adapter that inherits a [base adapter](https://github.com/cjsaylor/badassets/blob/master/src/base_adapter.js)
+In the `bitbin.json` configuration, the `adapter` property can be used to define
+a path to a custom adapter that inherits a [base adapter](https://github.com/cjsaylor/bitbin/blob/master/src/base_adapter.js)
 and implements its prototypical methods.
 
 #### Example custom adapter
 
 ```javascript
 var util = require('util');
-var BaseAdapter = require('badassets/src/base_adapter');
+var BaseAdapter = require('bitbin/src/base_adapter');
 
 var MyAdapter = function() {
     // Special constructor stuff here

@@ -16,7 +16,7 @@ Config.prototype.retrieve = function() {
         return cachedConfig;
     }
     try {
-        cachedConfig = JSON.parse(this.fs.readFileSync(process.cwd() + '/badassets.json'));
+        cachedConfig = JSON.parse(this.fs.readFileSync(process.cwd() + '/bitbin.json'));
     } catch (e) {
         cachedConfig = defaultConfig;
     }
@@ -24,7 +24,7 @@ Config.prototype.retrieve = function() {
 };
 
 Config.prototype.write = function(config) {
-    return Q.nfcall(this.fs.writeFile, process.cwd() + '/badassets.json', JSON.stringify(config, null, 4));
+    return Q.nfcall(this.fs.writeFile, process.cwd() + '/bitbin.json', JSON.stringify(config, null, 4));
 };
 
 module.exports = Config;
