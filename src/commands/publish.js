@@ -8,13 +8,13 @@ Publish.prototype.handle = function() {
         .then(this.manifest.transposeWithMD5.bind(this.manifest))
         .then(this.manifest.filterInManifest.bind(this.manifest))
         .then(this.adapter.filterExisting.bind(this.adapter))
+        .then(this.adapter.transposeVersions.bind(this.adapter))
         // @todo upload all remaining files
-        // @todo update filenames with versions
         // @todo update manifest file
         .then(function(updated) {
             console.log('Uploaded:');
             updated.forEach(function(entry) {
-                console.log(entry.name);
+                console.log('%s --> %s', entry.originalName, entry.name);
             });
             console.log(JSON.stringify(updated, null, 4));
         })
