@@ -28,15 +28,22 @@ var versionReplacer = function(match, base, version) {
  * The default behavior is to ammend __v# prior to the extension.
  * If no extension exists, __v# will be appended to the end of the filename.
  *
- * @param string file
- * @return string
+ * Will also attach an `originalName` property.
+ *
+ * @param object file File format as specified in the manifest
+ * @return object
  */
-BaseAdapter.prototype.upsertVersion = function(filename) {
-    var extension = path.extname(filename);
-    var baseName = path.basename(filename, extension);
-    return this.patterns.version.test(baseName) ?
-        filename.replace(this.patterns.version, versionReplacer) + extension :
-        baseName + '__v1' + extension;
+BaseAdapter.prototype.upsertVersion = function(file) {
+    var extension = path.extname(file.name);
+    var baseName = path.basename(file.name, extension);
+    if (!file.originalName) {
+        file.originalName = file.name;
+    }
+    if (this.patterns.version.test(baseName)) {
+        file.name = file.name.replace(this.patterns.version, versionReplacer) + extension;
+    } else {
+        file.name = baseName + '__v1' + extension;
+    }
 };
 
 module.exports = BaseAdapter;

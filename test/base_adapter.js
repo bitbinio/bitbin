@@ -17,9 +17,21 @@ describe('base_adapter', function() {
         ];
         resolveExpectations = function(expectation, i) {
             it('should attach/update appropriate version information to the filename #' + i, function() {
-                expect(adapter.upsertVersion(expectation[0])).to.equal(expectation[1]);
+                var file = {name: expectation[0]};
+                adapter.upsertVersion(file);
+                expect(file).to.have.property('originalName', expectation[0])
+                expect(file).to.have.property('name', expectation[1]);
             });
         };
         expectations.forEach(resolveExpectations);
+        it('should not update the originalName property on subsequent calls', function() {
+            var file = {name: 'filename.jpg'};
+            adapter.upsertVersion(file);
+            expect(file).to.have.property('originalName', 'filename.jpg');
+            expect(file).to.have.property('name', 'filename__v1.jpg');
+            adapter.upsertVersion(file);
+            expect(file).to.have.property('originalName', 'filename.jpg');
+            expect(file).to.have.property('name', 'filename__v2.jpg');
+        });
     });
 });
