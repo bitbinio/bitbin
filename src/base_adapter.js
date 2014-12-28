@@ -31,7 +31,7 @@ var versionReplacer = function(match, base, version) {
  * Will also attach an `originalName` property.
  *
  * @param object file File format as specified in the manifest
- * @return object
+ * @return void
  */
 BaseAdapter.prototype.upsertVersion = function(file) {
     var extension = path.extname(file.name);
