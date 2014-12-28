@@ -56,7 +56,6 @@ describe('manifest', function() {
                 {
                     name: 'test/fixture/md5test.txt',
                     hash: '77284ae4aac90cd005586850dce5fbd9',
-                    canonical: 'test/fixture/md5test.txt'
                 }
             ];
             manifest.transposeWithMD5(files).should.eventually.be.deep.include.members(expected).notify(done);

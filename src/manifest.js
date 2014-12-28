@@ -75,8 +75,7 @@ Manifest.prototype.transposeWithMD5 = function(files) {
             files.forEach(function(entry, i) {
                 entries.push({
                     name: entry,
-                    hash: data[i],
-                    canonical: entry
+                    hash: data[i]
                 });
             });
             return entries;
