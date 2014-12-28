@@ -31,19 +31,22 @@ var versionReplacer = function(match, base, version) {
  * Will also attach an `originalName` property.
  *
  * @param object file File format as specified in the manifest
- * @return void
+ * @return object
  */
 BaseAdapter.prototype.upsertVersion = function(file) {
     var extension = path.extname(file.name);
     var baseName = path.basename(file.name, extension);
+    var dirname = path.dirname(file.name);
+    dirname = dirname !== '.' ? dirname + '/' : '';
     if (!file.originalName) {
         file.originalName = file.name;
     }
     if (this.patterns.version.test(baseName)) {
-        file.name = file.name.replace(this.patterns.version, versionReplacer) + extension;
+        file.name = dirname + file.name.replace(this.patterns.version, versionReplacer) + extension;
     } else {
-        file.name = baseName + '__v1' + extension;
+        file.name = dirname + baseName + '__v1' + extension;
     }
+    return file;
 };
 
 module.exports = BaseAdapter;
