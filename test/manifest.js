@@ -4,12 +4,6 @@ var config = {
     retrieve: function() {
         return {
             paths: ['/tmp/a', '/tmp/b'],
-            files: [
-                {
-                    name: 'imagea.jpg',
-                    hash: 'somehash'
-                }
-            ]
         }
     }
 };
@@ -21,9 +15,19 @@ var md5 = require(__dirname + '/../src/md5')({
         fs: require('fs')
     }
 });
+var fs = {
+    readFile: function(name, callback) {
+        callback(null, [
+            {
+                name: 'imagea.jpg',
+                hash: 'somehash'
+            }
+        ]);
+    }
+};
 
 describe('manifest', function() {
-    var manifest = new Manifest(config, md5, glob);
+    var manifest = new Manifest(config, md5, glob, fs);
     describe('#localFiles', function() {
         it('should produce an array of files based on config paths', function(done) {
             manifest.localFiles().should.eventually.have.length(2).notify(done);
@@ -33,12 +37,13 @@ describe('manifest', function() {
         });
     });
     describe('#filterInManifest', function() {
-        it('should filter files already in the manifest', function(done) {
-            var a = [{name: 'imagea.jpg', hash: 'somehash'}];
-            var b = [{name: 'imageb.jpg', hash: 'somehash'}];
-            assert(manifest.filterInManifest(a).length === 0, 'Should be filtered to nothing');
-            assert(manifest.filterInManifest(b).length === 1, 'Should not filer anything');
-            done();
+        it('should filter all files already in the manifest', function(done) {
+            var manifestFiles = [{name: 'imagea.jpg', hash: 'somehash'}];
+            manifest.filterInManifest(manifestFiles).should.eventually.have.length(0).notify(done);
+        });
+        it('should filter no files', function(done) {
+            var manifestFiles = [{name: 'imageb.jpg', hash: 'somehash'}];
+            manifest.filterInManifest(manifestFiles).should.eventually.have.length(1).notify(done);
         });
     });
     describe('#transposeWithMD5', function() {

@@ -1,14 +1,34 @@
 var junk = require('junk');
 var Q = require('q');
 
-var Manifest = function(config, md5, glob) {
+var Manifest = function(config, md5, glob, fs) {
     this.config = config;
     this.md5 = md5;
     this.glob = glob;
+    this.fs = fs;
 };
 
 var filterJunk = function(files) {
     return files.filter(junk.not);
+};
+
+var originalManifestList;
+
+/**
+ * Retrieve the file list from the manifest file.
+ *
+ * @return promise
+ */
+Manifest.prototype.fileList = function() {
+    // Subsequent calls shouldn't need to get the list again.
+    if (originalManifestList) {
+        return Q(originalManifestList);
+    }
+    return Q.nfcall(this.fs.readFile, process.cwd() + '/badassets.manifest.json')
+        .then(function(files) {
+            // Cache the original list
+            return originalManifestList = files;
+        });
 };
 
 /**
@@ -67,17 +87,22 @@ Manifest.prototype.transposeWithMD5 = function(files) {
  * Filter the provided files based on files already in the manifest.
  *
  * @param Array files
- * @return array
+ * @return promise
  */
 Manifest.prototype.filterInManifest = function(files) {
-    var manifestFiles = this.config.retrieve().files || [];
-    return files.filter(function(file) {
-        return !manifestFiles.some(function(entry) {
-            return entry.name === file.name && entry.hash === file.hash;
+    return this.fileList()
+        .then(function(manifestFiles) {
+            return files.filter(function(file) {
+                return !manifestFiles.some(function(entry) {
+                    return entry.name === file.name && entry.hash === file.hash;
+                });
+            });
+        })
+        .catch(function() {
+            return files;
         });
-    });
 };
 
 module.exports = Manifest;
 module.exports.$name = 'manifest';
-module.exports.$inject = ['config', 'md5', 'glob'];
+module.exports.$inject = ['config', 'md5', 'glob', 'node.fs'];
