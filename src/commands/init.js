@@ -46,11 +46,11 @@ Init.prototype.handle = function() {
         if (isS3(answers)) {
             config.options = {
                 bucket: answers.s3Bucket
-            }
+            };
         } else if(isLocal(answers)) {
             config.options = {
                 uploadPath: answers.localUploadPath
-            }
+            };
         }
         this.config.write(config);
     }.bind(this));

@@ -1,5 +1,5 @@
 var junk = require('junk');
-var Q = require('q');
+var q = require('q');
 
 var Manifest = function(config, md5, glob, fs) {
     this.config = config;
@@ -22,9 +22,9 @@ var originalManifestList;
 Manifest.prototype.fileList = function() {
     // Subsequent calls shouldn't need to get the list again.
     if (originalManifestList) {
-        return Q(originalManifestList);
+        return q(originalManifestList);
     }
-    return Q.nfcall(this.fs.readFile, process.cwd() + '/bitbin.manifest.json')
+    return q.nfcall(this.fs.readFile, process.cwd() + '/bitbin.manifest.json')
         .then(function(files) {
             // Cache the original list
             return originalManifestList = files;
@@ -40,13 +40,13 @@ Manifest.prototype.localFiles = function() {
     var pathPromises = [];
     var glob = this.glob;
     this.config.retrieve().paths.forEach(function(path) {
-        pathPromises.push(Q.nfcall(glob, path, {nodir: true}).then(filterJunk));
+        pathPromises.push(q.nfcall(glob, path, {nodir: true}).then(filterJunk));
     });
     return !pathPromises.length ? 
-        Q.fcall(function() {
+        q.fcall(function() {
             throw new Error('No paths defined.');
         }) :
-        Q.all(pathPromises)
+        q.all(pathPromises)
             // flatten all the path files down to one array of files.
             .then(function(fileGroups) {
                 return fileGroups.reduce(function(a, b) {
@@ -68,7 +68,7 @@ Manifest.prototype.transposeWithMD5 = function(files) {
     files.forEach(function(file) {
         sumPromises.push(md5.computeFromFile(cwd + '/' + file));
     });
-    return Q.all(sumPromises)
+    return q.all(sumPromises)
         // map the sums
         .then(function(data) {
             var entries = [];

@@ -3,7 +3,7 @@ var BaseAdapter = require(__dirname + '/../base_adapter');
 
 var S3Adapter = function(fs) {
     this.fs = fs;
-}
+};
 
 util.inherits(S3Adapter, BaseAdapter);
 
