@@ -56,6 +56,13 @@ LocalAdapter.prototype.filterExisting = function(files) {
         });
 };
 
+/**
+ * @todo implement
+ */
+LocalAdapter.prototype.upload = function(files) {
+    return files;
+};
+
 module.exports = function(container) {
     return new LocalAdapter(
         container.config,

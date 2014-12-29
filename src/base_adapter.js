@@ -18,6 +18,19 @@ BaseAdapter.prototype.filterExisting = function(files) {
     throw new Error('filterExisting not implemented on this adapter.');
 };
 
+/**
+ * Upload all files provided to the adapter outbound.
+ *
+ * Any conflicting files should be sent through BaseAdapter#upsertVersion
+ * to not over-write.
+ *
+ * @param array files
+ * @return array|promise
+ */
+BaseAdapter.prototype.upload = function(files) {
+    throw new Error('upload not implemented on this adapter.');
+};
+
 var versionReplacer = function(match, base, version) {
     return base + '__v' + (parseInt(version) + 1);
 };
