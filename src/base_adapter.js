@@ -42,7 +42,7 @@ BaseAdapter.prototype.upsertVersion = function(file) {
         file.originalName = file.name;
     }
     if (this.patterns.version.test(baseName)) {
-        file.name = dirname + file.name.replace(this.patterns.version, versionReplacer) + extension;
+        file.name = dirname + baseName.replace(this.patterns.version, versionReplacer) + extension;
     } else {
         file.name = dirname + baseName + '__v1' + extension;
     }

@@ -14,7 +14,8 @@ describe('base_adapter', function() {
             ['filename__v10',     'filename__v11'],
             ['file.name.jpg',     'file.name__v1.jpg'],
             ['file.name__v1.jpg', 'file.name__v2.jpg'],
-            ['img/sub/file.jpg',  'img/sub/file__v1.jpg']
+            ['img/sub/file.jpg',  'img/sub/file__v1.jpg'],
+            ['img/sub/a__v1.jpg', 'img/sub/a__v2.jpg']
         ];
         resolveExpectations = function(expectation, i) {
             it('should attach/update appropriate version information to the filename #' + i, function() {
