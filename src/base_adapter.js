@@ -1,4 +1,5 @@
 var path = require('path');
+var q = require('q');
 var BaseAdapter = function() {
     this.patterns = {
         version: /^(.*)__v(\d+).*$/
@@ -72,6 +73,33 @@ BaseAdapter.prototype.upsertVersion = function(file) {
  */
 BaseAdapter.prototype.transposeVersions = function(files) {
     return files.map(this.upsertVersion.bind(this));
+};
+
+/**
+ * Renames all files uploaded.
+ *
+ * @param array files
+ * @return promise
+ */
+BaseAdapter.prototype.renameUploadedFiles = function(files) {
+    var promises = [];
+    var fs = this.fs;
+    var cwd = process.cwd() + '/';
+    files.forEach(function(file, index) {
+        var deferred = q.defer();
+        fs.rename(cwd + file.originalName, cwd + file.name, function(err) {
+            if (err) {
+                deferred.reject([err, index]);
+            } else {
+                deferred.resolve();
+            }
+        });
+        promises.push(deferred.promise);
+    });
+    return q.allSettled(promises).then(function() {
+        // @todo possibly do something with any files that had errors being renamed.
+        return q(files);
+    });
 };
 
 module.exports = BaseAdapter;

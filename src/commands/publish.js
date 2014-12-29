@@ -9,8 +9,8 @@ Publish.prototype.handle = function() {
         .then(this.manifest.filterInManifest.bind(this.manifest))
         .then(this.adapter.filterExisting.bind(this.adapter))
         .then(this.adapter.transposeVersions.bind(this.adapter))
-        // @todo rename files
         .then(this.adapter.upload.bind(this.adapter))
+        .then(this.adapter.renameUploadedFiles.bind(this.adapter))
         // @todo update manifest file
         .then(function(updated) {
             console.log('Uploaded:');
