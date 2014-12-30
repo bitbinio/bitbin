@@ -14,10 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cjsaylor/bitbin"
+    "url": "https://github.com/bitbinio/bitbin"
   },
   "bugs": {
-    "url": "https://github.com/cjsaylor/bitbin/issues"
+    "url": "https://github.com/bitbinio/bitbin/issues"
   },
   "directories": {
     "bin": "./bin",
