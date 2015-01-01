@@ -11,6 +11,12 @@ module.exports = function() {
     bottle.register(require(__dirname + '/commands/init'));
     bottle.register(require(__dirname + '/commands/publish'));
 
+    // Add mkdirp as a callable on the fs dependency.
+    bottle.decorator('node.fs', function(fs) {
+        fs.mkdirp = require('mkdirp');
+        return fs;
+    });
+
     bottle.container.adapter_injector.inject();
 
     return bottle.container;
