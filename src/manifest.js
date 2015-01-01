@@ -93,21 +93,6 @@ Manifest.prototype.filterInManifest = function(files) {
                     return entry.name === file.name && entry.hash === file.hash;
                 });
             });
-        })
-        .then(function(filteredFiles) {
-            var err;
-            if (!filteredFiles.length) {
-                err = new Error('All contents match the manifest.');
-                err.derail = true;
-                throw err;
-            }
-            return filteredFiles;
-        })
-        .catch(function(err) {
-            if (!err.derail) {
-                return files;
-            }
-            throw err;
         });
 };
 

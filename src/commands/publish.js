@@ -7,6 +7,13 @@ Publish.prototype.handle = function() {
     this.manifest.localFiles()
         .then(this.manifest.transposeWithMD5.bind(this.manifest))
         .then(this.manifest.filterInManifest.bind(this.manifest))
+        // Check if everything got filtered out
+        .then(function(files) {
+            if (!files.length) {
+                throw new Error('All contents match the manifest.');
+            }
+            return files;
+        })
         .then(this.adapter.filterExisting.bind(this.adapter))
         .then(this.adapter.transposeVersions.bind(this.adapter))
         .then(this.adapter.upload.bind(this.adapter))
