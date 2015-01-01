@@ -27,7 +27,11 @@ Publish.prototype.handle = function() {
             console.log(JSON.stringify(updated, null, 4));
         })
         .catch(function(e) {
-            console.error(e.message);
+            if (process.env.DEBUG) {
+                console.trace(e);
+            } else {
+                console.error(e.message);
+            }
             process.exit(1);
         })
         .done(function() {
