@@ -1,4 +1,5 @@
 var util = require('util');
+var path = require('path');
 var Q = require('q');
 var junk = require('junk');
 var BaseAdapter = require(__dirname + '/../base_adapter');
@@ -57,10 +58,38 @@ LocalAdapter.prototype.filterExisting = function(files) {
 };
 
 /**
- * @todo implement
+ * Upload files to the configured upload location.
+ *
+ * @param array files
+ * @return promise
+ * @todo prevent overwrite of same filename (regardless of md5)
  */
 LocalAdapter.prototype.upload = function(files) {
-    return files;
+    var fs = this.fs;
+    var uploadPath = this.uploadPath;
+    var removeErrored = function(name, file) {
+        return file.name !== name;
+    };
+    var handleError = function(err) {
+        throw new Error(err);
+    };
+    var promises = [];
+    files.forEach(function(file) {
+        var filePath = path.normalize(uploadPath + '/' + path.dirname(file.name));
+        var promise = Q.nfcall(fs.mkdirp, filePath)
+            .then(function() {
+                var writer = fs.createWriteStream(path.normalize(uploadPath + '/' + file.name));
+                var fd = fs.ReadStream(path.normalize(process.cwd() + '/' + file.originalName));
+                writer.on('error', handleError);
+                fd.on('error', handleError);
+                fd.pipe(writer);
+            })
+            .catch(function(err) {
+                files = files.filter(removeErrored.bind(null, file.name));
+            });
+        promises.push(promise);
+    });
+    return Q.all(promises).then(Q.bind(Q, files));
 };
 
 module.exports = function(container) {
