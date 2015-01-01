@@ -119,6 +119,44 @@ Manifest.prototype.filterInManifest = function(files) {
         });
 };
 
+/**
+ * Update manifest for files that have been updated.
+ *
+ * @param array files
+ * @return array
+ */
+Manifest.prototype.update = function(files) {
+    var fs = this.fs;
+    return this.fileList()
+        .then(function(manifestFiles) {
+            var hash = {};
+            manifestFiles.forEach(function(file, i) {
+                hash[file.name] = [i, file];
+            });
+            files.forEach(function(file) {
+                var entry = {
+                    name: file.name,
+                    hash: file.hash
+                };
+                if (hash.hasOwnProperty(file.originalName)) {
+                    manifestFiles[hash[file.originalName][0]] = entry;
+                } else {
+                    manifestFiles.push(entry);
+                }
+            });
+            return manifestFiles;
+        })
+        .then(function(manifestFiles) {
+            return q.nfcall(
+                fs.writeFile,
+                process.cwd() + '/bitbin.manifest.json',
+                JSON.stringify(manifestFiles, null, 4)
+            ).then(function() {
+                return files;
+            });
+        });
+};
+
 module.exports = Manifest;
 module.exports.$name = 'manifest';
 module.exports.$inject = ['config', 'md5', 'glob', 'node.fs'];
