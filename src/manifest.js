@@ -12,23 +12,15 @@ var filterJunk = function(files) {
     return files.filter(junk.not);
 };
 
-var originalManifestList;
-
 /**
  * Retrieve the file list from the manifest file.
  *
  * @return promise
  */
 Manifest.prototype.fileList = function() {
-    // Subsequent calls shouldn't need to get the list again.
-    if (originalManifestList) {
-        return q(originalManifestList);
-    }
     return q.nfcall(this.fs.readFile, process.cwd() + '/bitbin.manifest.json', {encoding: 'utf8'})
         .then(function(files) {
-            files = JSON.parse(files);
-            // Cache the original list
-            return originalManifestList = files;
+            return JSON.parse(files);
         })
         .catch(function() {
             // @todo should check the err here to see if file doesn't exist or general error.
