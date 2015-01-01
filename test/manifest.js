@@ -16,13 +16,13 @@ var md5 = require(__dirname + '/../src/md5')({
     }
 });
 var fs = {
-    readFile: function(name, callback) {
-        callback(null, [
+    readFile: function(name, opts, callback) {
+        callback(null, JSON.stringify([
             {
                 name: 'imagea.jpg',
                 hash: 'somehash'
             }
-        ]);
+        ]));
     }
 };
 
