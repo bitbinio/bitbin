@@ -24,10 +24,15 @@ Manifest.prototype.fileList = function() {
     if (originalManifestList) {
         return q(originalManifestList);
     }
-    return q.nfcall(this.fs.readFile, process.cwd() + '/bitbin.manifest.json')
+    return q.nfcall(this.fs.readFile, process.cwd() + '/bitbin.manifest.json', {encoding: 'utf8'})
         .then(function(files) {
+            files = JSON.parse(files);
             // Cache the original list
             return originalManifestList = files;
+        })
+        .catch(function() {
+            // @todo should check the err here to see if file doesn't exist or general error.
+            return [];
         });
 };
 
