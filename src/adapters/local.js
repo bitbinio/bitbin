@@ -1,6 +1,6 @@
 var util = require('util');
 var path = require('path');
-var Q = require('q');
+var q = require('q');
 var junk = require('junk');
 var BaseAdapter = require(__dirname + '/../base_adapter');
 
@@ -24,7 +24,7 @@ var transposeMd5 = function(files) {
     files.forEach(function(file) {
         sumPromises.push(this.md5.computeFromFile(file));
     }.bind(this));
-    return Q.all(sumPromises)
+    return q.all(sumPromises)
         .then(function(sums) {
             return files.map(function(entry, i) {
                 return {
@@ -45,7 +45,7 @@ util.inherits(LocalAdapter, BaseAdapter);
  */
 LocalAdapter.prototype.filterExisting = function(files) {
     var uploadPath = this.uploadPath;
-    return Q.nfcall(this.glob, uploadPath + '/**/*', {nodir: true})
+    return q.nfcall(this.glob, uploadPath + '/**/*', {nodir: true})
         .then(filterJunk)
         .then(transposeMd5.bind(this))
         .then(function(entries) {
@@ -62,7 +62,6 @@ LocalAdapter.prototype.filterExisting = function(files) {
  *
  * @param array files
  * @return promise
- * @todo prevent overwrite of same filename (regardless of md5)
  */
 LocalAdapter.prototype.upload = function(files) {
     var fs = this.fs;
@@ -76,7 +75,7 @@ LocalAdapter.prototype.upload = function(files) {
     var promises = [];
     files.forEach(function(file) {
         var filePath = path.normalize(uploadPath + '/' + path.dirname(file.name));
-        var promise = Q.nfcall(fs.mkdirp, filePath)
+        var promise = q.nfcall(fs.mkdirp, filePath)
             .then(function() {
                 var writer = fs.createWriteStream(path.normalize(uploadPath + '/' + file.name));
                 var fd = fs.ReadStream(path.normalize(process.cwd() + '/' + file.originalName));
@@ -89,7 +88,7 @@ LocalAdapter.prototype.upload = function(files) {
             });
         promises.push(promise);
     });
-    return Q.all(promises).then(Q.bind(Q, files));
+    return q.all(promises).then(q.bind(q, files));
 };
 
 module.exports = function(container) {
