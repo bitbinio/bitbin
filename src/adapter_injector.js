@@ -5,6 +5,14 @@ var builtIn = [
     'local'
 ];
 
+var isValidAdapterInterface = function(adapter) {
+    var baseMethods = Object.keys(BaseAdapter.prototype);
+    var compare = baseMethods.filter(function(method) {
+        return typeof adapter[method] === 'function';
+    });
+    return baseMethods.length === compare.length;
+};
+
 var AdapterInjector = function(config) {
     this.config = config;
 };
@@ -29,7 +37,7 @@ AdapterInjector.prototype.inject = function() {
         adapterImpl = require(path);
         bottle.factory('adapter', adapterImpl);
         bottle.decorator('adapter', function(adapter) {
-            if (!(adapter instanceof BaseAdapter)) {
+            if (!isValidAdapterInterface(adapter)) {
                 console.error('Adapter must be an instance of base_adapter.');
                 process.exit(1);
             }
