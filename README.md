@@ -45,9 +45,9 @@ operations. The thinking is to **NEVER** update/overwrite a file on the remote l
 
 This library comes equiped with the following adapters:
 
-* Amazon S3 (`S3`) - _to be implemented_
-* Local (`local`) - _to be implemented_
-* FTP (`ftp`) - _to be implemented_
+* Amazon S3 (`bitbin-s3`) - _to be implemented_
+* [Local](https://github.com/bitbinio/bitbin-local) (`bitbin-local`)
+* FTP (`bitbin-ftp`) - _to be implemented_
 
 ### Custom Adapters
 
@@ -83,5 +83,4 @@ module.exports = function(container) {
         // inject dependencies from the container provided
     );
 };
-
 ```

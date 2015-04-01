@@ -5,7 +5,7 @@ var Init = function(config, adapterInjector) {
 };
 
 var isS3 = function(answers) {
-    return answers.adapter === 'S3';
+    return answers.adapter === 's3';
 };
 var isLocal = function(answers) {
     return answers.adapter === 'local';
@@ -18,7 +18,7 @@ Init.prototype.handle = function() {
             name: 'adapter',
             message: 'Upload provider to use:',
             choices: this.adapterInjector.builtIn(),
-            default: 'S3'
+            default: 's3'
         },
         {
             type: 'input',
@@ -40,7 +40,7 @@ Init.prototype.handle = function() {
     ];
     inquirer.prompt(questions, function(answers) {
         var config = {
-            adapter: answers.adapter,
+            adapter: 'bitbin-' + answers.adapter,
             paths: answers.paths.split(',')
         };
         if (isS3(answers)) {
