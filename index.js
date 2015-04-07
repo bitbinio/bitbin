@@ -1,5 +1,6 @@
 var pkg = require('./package.json');
 var command = require('commander');
+var subcommand = process.argv.slice(2, 3);
 
 var container = require('./src/bootstrap')();
 
@@ -19,3 +20,9 @@ command
     .action(container.command.publish.handle.bind(container.command.publish));
 
 command.parse(process.argv);
+
+if (!subcommand.length || ['init', 'install', 'publish'].indexOf(subcommand[0]) < 0) {
+    console.error();
+    console.error('  Unknown command: ' + subcommand);
+    command.help();
+}
