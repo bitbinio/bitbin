@@ -9,6 +9,7 @@ module.exports = function() {
     bottle.register(require(__dirname + '/manifest'));
     bottle.register(require(__dirname + '/md5'));
     bottle.register(require(__dirname + '/commands/init'));
+    bottle.register(require(__dirname + '/commands/install'));
     bottle.register(require(__dirname + '/commands/publish'));
 
     // Add mkdirp as a callable on the fs dependency.

@@ -15,6 +15,11 @@ command
     .action(container.command.init.handle.bind(container.command.init));
 
 command
+    .command('install')
+    .description('Install all remote files specified in the manifest json.')
+    .action(container.command.install.handle.bind(container.command.install));
+
+command
     .command('publish')
     .description('Synchronize remote binary files to the publisher adapter.')
     .action(container.command.publish.handle.bind(container.command.publish));
