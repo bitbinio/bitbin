@@ -1,7 +1,7 @@
 var Install = function(manifest, adapter) {
     this.manifest = manifest;
     this.adapter = adapter;
-}
+};
 
 Install.prototype.handle = function() {
     this.manifest.fileList()

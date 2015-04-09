@@ -43,7 +43,6 @@ Manifest.prototype.filterExisting = function(files) {
             return !hashedFiles.some(function(entry) {
                 return entry.name === file.name && entry.hash === file.hash;
             });
-            return some;
         }));
     });
 
