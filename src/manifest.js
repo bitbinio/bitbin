@@ -65,14 +65,14 @@ Manifest.prototype.transposeWithMD5 = function(files) {
     files.forEach(function(file) {
         sumPromises.push(md5.computeFromFile(cwd + '/' + file));
     });
-    return q.all(sumPromises)
+    return q.allSettled(sumPromises)
         // map the sums
         .then(function(data) {
             var entries = [];
             files.forEach(function(entry, i) {
                 entries.push({
                     name: entry,
-                    hash: data[i]
+                    hash: data[i].state === 'fulfilled' ? data[i].value : null
                 });
             });
             return entries;
