@@ -29,6 +29,28 @@ Manifest.prototype.fileList = function() {
 };
 
 /**
+ * Filter out files that already exist in the working path.
+ *
+ * @param array files
+ * @return promise
+ */
+Manifest.prototype.filterExisting = function(files) {
+    var deferred = q.defer();
+    this.transposeWithMD5(files.map(function(file) {
+        return file.name;
+    })).then(function(hashedFiles) {
+        deferred.resolve(files.filter(function(file) {
+            return !hashedFiles.some(function(entry) {
+                return entry.name === file.name && entry.hash === file.hash;
+            });
+            return some;
+        }));
+    });
+
+    return deferred.promise;
+};
+
+/**
  * Retrieve all files located in the configured paths.
  *
  * @return promise
