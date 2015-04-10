@@ -23,6 +23,8 @@ The goal of this project is to solve two problems:
 
 ## Commands
 
+[![Join the chat at https://gitter.im/bitbinio/bitbin](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bitbinio/bitbin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ### Init
 
 The `init` command inquires certian information and generates the initial `bitbin.json` for managing assets.
