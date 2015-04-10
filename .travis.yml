@@ -9,7 +9,7 @@ script: "./node_modules/.bin/grunt ci"
 notifications:
   webhooks:
     urls:
-      - "https://webhooks.gitter.im/e/6ae8a9996354c8026bc3"
+      - "https://webhooks.gitter.im/e/5b9a0a2586cae3f46ac7"
     on_success: change
     on_failure: always
     on_start: false

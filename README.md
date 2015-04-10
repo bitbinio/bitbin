@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/bitbinio/bitbin.svg?branch=master)](https://travis-ci.org/bitbinio/bitbin)
 [![Dependency Status](https://david-dm.org/bitbinio/bitbin.svg)](https://david-dm.org/bitbinio/bitbin)
 [![Huboard](https://img.shields.io/badge/Hu-Board-7965cc.svg?style=flat)](https://huboard.com/bitbinio/bitbin)
-[![Gitter](https://badges.gitter.im/bitbinio.svg)](https://gitter.im/bitbinio)
+[![Gitter](https://badges.gitter.im/bitbinio/bitbin.svg)](https://gitter.im/bitbinio/bitbin)
 
 Bitbin is an asset manager for binary files. If you are tired of having to commit your images, videos, and sounds into your
 git repo, this project is for you.
