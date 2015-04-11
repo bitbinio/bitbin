@@ -32,7 +32,7 @@ var proto = {
 };
 
 module.exports = function(container) {
-	fs = container.node.fs;
+	fs = container.node.fs || require('fs');
 	return Object.create(proto);
 };
 module.exports.$type = 'factory';
