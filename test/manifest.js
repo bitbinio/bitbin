@@ -10,11 +10,7 @@ var config = {
 var glob = function(path, opts, callback) {
     callback(null, ['imagea.jpg']);
 };
-var md5 = require('md5-file-promise')({
-    node: {
-        fs: require('fs')
-    }
-});
+var md5TransposeList = require('md5-transpose-list')();
 var fs = {
     readFile: function(name, opts, callback) {
         callback(null, JSON.stringify([
@@ -27,7 +23,7 @@ var fs = {
 };
 
 describe('manifest', function() {
-    var manifest = new Manifest(config, md5, glob, fs);
+    var manifest = new Manifest(config, md5TransposeList, glob, fs);
     describe('#localFiles', function() {
         it('should produce an array of files based on config paths', function(done) {
             manifest.localFiles().should.eventually.have.length(2).notify(done);

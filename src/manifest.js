@@ -1,9 +1,9 @@
 var junk = require('junk');
 var q = require('q');
 
-var Manifest = function(config, md5, glob, fs) {
+var Manifest = function(config, md5TransposeList, glob, fs) {
     this.config = config;
-    this.md5 = md5;
+    this.md5Transposer = md5TransposeList;
     this.glob = glob;
     this.fs = fs;
 };
@@ -80,24 +80,7 @@ Manifest.prototype.localFiles = function() {
  * @return promise
  */
 Manifest.prototype.transposeWithMD5 = function(files) {
-    var sumPromises = [];
-    var md5 = this.md5;
-    var cwd = process.cwd();
-    files.forEach(function(file) {
-        sumPromises.push(md5.computeFromFile(cwd + '/' + file));
-    });
-    return q.allSettled(sumPromises)
-        // map the sums
-        .then(function(data) {
-            var entries = [];
-            files.forEach(function(entry, i) {
-                entries.push({
-                    name: entry,
-                    hash: data[i].state === 'fulfilled' ? data[i].value : null
-                });
-            });
-            return entries;
-        });
+    return this.md5Transposer.transpose(files);
 };
 
 /**
@@ -157,4 +140,4 @@ Manifest.prototype.update = function(files) {
 
 module.exports = Manifest;
 module.exports.$name = 'manifest';
-module.exports.$inject = ['config', 'md5', 'glob', 'node.fs'];
+module.exports.$inject = ['config', 'md5TransposeList', 'glob', 'node.fs'];

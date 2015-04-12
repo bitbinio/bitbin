@@ -27,15 +27,17 @@
     "node": ">=0.10.3 <0.12"
   },
   "dependencies": {
+    "bitbin": "0.0.1",
     "bitbin-local": "0.0.1",
     "bottlejs": "^0.7.2",
     "commander": "^2.7.1",
-    "glob": "^5.0.3",
-    "inquirer": "^0.8.0",
-    "junk": "^1.0.0",
+    "glob": "^5.0.5",
+    "inquirer": "^0.8.2",
+    "junk": "^1.0.1",
     "md5-file-promise": "^1.0.0",
+    "md5-transpose-list": "^1.0.2",
     "mkdirp": "^0.5.0",
-    "q": "^1.1.2"
+    "q": "^1.2.0"
   },
   "devDependencies": {
     "chai": "^1.10.0",
