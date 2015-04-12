@@ -10,7 +10,7 @@ var config = {
 var glob = function(path, opts, callback) {
     callback(null, ['imagea.jpg']);
 };
-var md5 = require(__dirname + '/../src/md5')({
+var md5 = require('md5-file-promise')({
     node: {
         fs: require('fs')
     }
