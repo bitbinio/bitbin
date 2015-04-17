@@ -7,6 +7,29 @@ var BaseAdapter = function() {
 };
 
 /**
+ * Checks all files in the list to ensure they exist and are what is required.
+ *
+ * The file should be the same path and MD5 hash. If any file does not exist
+ * or does not match, it should reject the install.
+ *
+ * @param array files
+ * @return promise
+ */
+BaseAdapter.prototype.ensureFilesExists = function(files) {
+    throw new Error('ensureFilesExists not implemented on this adapter.');
+};
+
+/**
+ * Download and store to the manifest location all files in the list.
+ *
+ * @param array files
+ * @return promise
+ */
+BaseAdapter.prototype.download = function(files) {
+    throw new Error('downloadFiles not implemented on this adapter.');
+}
+
+/**
  * Filter out of the files argument array that which is already existing.
  *
  * Depending on what the operation does, this can either return an array
