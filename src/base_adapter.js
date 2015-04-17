@@ -27,7 +27,7 @@ BaseAdapter.prototype.ensureFilesExists = function(files) {
  */
 BaseAdapter.prototype.download = function(files) {
     throw new Error('downloadFiles not implemented on this adapter.');
-}
+};
 
 /**
  * Filter out of the files argument array that which is already existing.
