@@ -6,7 +6,7 @@ var Install = function(manifest, adapter) {
 Install.prototype.handle = function() {
     this.manifest.fileList()
         .then(this.manifest.filterExisting.bind(this.manifest)) // Filter what we already have
-        .then(this.adapter.ensureFilesExists(this.adapter))
+        .then(this.adapter.ensureFilesExists.bind(this.adapter))
         .then(this.adapter.download.bind(this.adapter))
         .then(function(files) {
             files.forEach(function(file) {
@@ -19,6 +19,7 @@ Install.prototype.handle = function() {
             } else {
                 console.error(e);
             }
+            console.log('\nInstall aborted.');
             process.exit(1);
         })
         .done(function() {
