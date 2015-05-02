@@ -56,17 +56,41 @@ BaseAdapter.prototype.upload = function(files) {
 };
 
 /**
+ * Increment a file object version.
+ * 
+ * @param object file
+ * @return file
+ */
+BaseAdapter.prototype.upsertVersion = function(file) {
+    file.version = file.version ? file.version + 1 : 1;
+    return file;
+};
+
+/**
+ * Return the versioned file name.
+ *
+ * @param object file
+ * @return string
+ */
+BaseAdapter.prototype.versionFilename = function(file) {
+    var extension = path.extname(file.name);
+    return [
+        path.dirname(file.name) + '/',
+        path.basename(file.name, extension),
+        '__v',
+        file.version,
+        extension
+    ].join('').replace(/^.\//, '');
+};
+
+/**
  * Transpose an array of file objects to have an upserted version for the filename.
  *
  * @param array files
  * @return array
  */
 BaseAdapter.prototype.transposeVersions = function(files) {
-    var upsertVersion = function(file) {
-        file.version = file.version ? file.version + 1 : 1;
-        return file;
-    };
-    return files.map(upsertVersion);
+    return files.map(this.upsertVersion);
 };
 
 /**
