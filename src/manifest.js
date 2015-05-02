@@ -104,7 +104,7 @@ Manifest.prototype.attachVersions = function(files) {
             });
             return files;
         });
-}
+};
 
 /**
  * Filter the provided files based on files already in the manifest.
@@ -121,6 +121,27 @@ Manifest.prototype.filterInManifest = function(files) {
                 });
             });
         });
+};
+
+/**
+ * Deduplicate the list of files.
+ * 
+ * Only keep the most recent file versions.
+ * 
+ * @param array files
+ * @return array
+ */
+var dedupe = function(files) {
+    var collection = {};
+    files.forEach(function(file) {
+        var filename = file.name;
+        if (!collection.hasOwnProperty(filename) || collection[filename].version < file.version) {
+            collection[filename] = file;
+        }
+    });
+    return Object.keys(collection).map(function(name) {
+        return collection[name];
+    });
 };
 
 /**
@@ -151,6 +172,7 @@ Manifest.prototype.update = function(files) {
             });
             return manifestFiles;
         })
+        .then(dedupe)
         .then(function(manifestFiles) {
             return q.nfcall(
                 fs.writeFile,
