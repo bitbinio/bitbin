@@ -84,6 +84,29 @@ Manifest.prototype.transposeWithMD5 = function(files) {
 };
 
 /**
+ * Attach the proper version to local files based on their specification
+ * of the manifest.
+ *
+ * @param array files
+ * @return promise
+ */
+Manifest.prototype.attachVersions = function(files) {
+    return this.fileList()
+        .then(function(manifestFiles) {
+            var hash = {};
+            manifestFiles.forEach(function(file, i) {
+                hash[file.name] = [i, file];
+            });
+            files.forEach(function(file) {
+                if (hash.hasOwnProperty(file.name)) {
+                    file.version = hash[file.name][1].version;
+                }
+            });
+            return files;
+        });
+}
+
+/**
  * Filter the provided files based on files already in the manifest.
  *
  * @param Array files
@@ -112,15 +135,16 @@ Manifest.prototype.update = function(files) {
         .then(function(manifestFiles) {
             var hash = {};
             manifestFiles.forEach(function(file, i) {
-                hash[file.name] = [i, file];
+                hash[file.name + file.version] = [i, file];
             });
             files.forEach(function(file) {
                 var entry = {
                     name: file.name,
+                    version: file.version,
                     hash: file.hash
                 };
-                if (hash.hasOwnProperty(file.originalName)) {
-                    manifestFiles[hash[file.originalName][0]] = entry;
+                if (hash.hasOwnProperty(file.name + file.version)) {
+                    manifestFiles[hash[file.name + file.version][0]] = entry;
                 } else {
                     manifestFiles.push(entry);
                 }
