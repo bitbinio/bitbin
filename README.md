@@ -1,5 +1,4 @@
-<img src="http://assets.boxmeupapp.com/img/bitbin-logo.png?v=1" alt="Bitbin" align="right">
-
+![Bitbin](http://assets.boxmeupapp.com/img/bitbin-logo.png?v=1)
 [![Build Status](https://travis-ci.org/bitbinio/bitbin.svg?branch=master)](https://travis-ci.org/bitbinio/bitbin)
 [![Dependency Status](https://david-dm.org/bitbinio/bitbin.svg)](https://david-dm.org/bitbinio/bitbin)
 [![Huboard](https://img.shields.io/badge/Hu-Board-7965cc.svg?style=flat)](https://huboard.com/bitbinio/bitbin)
