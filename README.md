@@ -113,3 +113,9 @@ module.exports = function(container) {
     );
 };
 ```
+
+---
+
+## Credits
+
+* **Logo**: [@Kaue_Ribeiro](https://twitter.com/Kaue_Ribeiro)
