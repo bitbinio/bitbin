@@ -1,8 +1,7 @@
 // @todo adapt this to a file checker on an adapter folder.
 var BaseAdapter = require('./base_adapter');
 var builtIn = [
-    'S3',
-    'local'
+    'bitbin-local'
 ];
 
 var isValidAdapterInterface = function(adapter) {

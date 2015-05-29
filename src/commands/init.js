@@ -8,7 +8,7 @@ var isS3 = function(answers) {
     return answers.adapter === 's3';
 };
 var isLocal = function(answers) {
-    return answers.adapter === 'local';
+    return answers.adapter === 'bitbin-local';
 };
 
 Init.prototype.handle = function() {
@@ -18,13 +18,7 @@ Init.prototype.handle = function() {
             name: 'adapter',
             message: 'Upload provider to use:',
             choices: this.adapterInjector.builtIn(),
-            default: 's3'
-        },
-        {
-            type: 'input',
-            name: 's3Bucket',
-            message: 'S3 Bucket:',
-            when: isS3
+            default: 'bitbin-local'
         },
         {
             type: 'input',
@@ -40,14 +34,10 @@ Init.prototype.handle = function() {
     ];
     inquirer.prompt(questions, function(answers) {
         var config = {
-            adapter: 'bitbin-' + answers.adapter,
+            adapter: answers.adapter,
             paths: answers.paths.split(',')
         };
-        if (isS3(answers)) {
-            config.options = {
-                bucket: answers.s3Bucket
-            };
-        } else if(isLocal(answers)) {
+        if(isLocal(answers)) {
             config.options = {
                 uploadPath: answers.localUploadPath
             };
