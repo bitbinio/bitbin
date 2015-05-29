@@ -2,7 +2,7 @@ var path = require('path');
 var q = require('q');
 var BaseAdapter = function() {
     this.patterns = {
-        version: /^(.*)__v(\d+).*$/
+        version: /^(.*)__v(\d+)(.*)$/
     };
 };
 
@@ -55,47 +55,42 @@ BaseAdapter.prototype.upload = function(files) {
     throw new Error('upload not implemented on this adapter.');
 };
 
-var versionReplacer = function(match, base, version) {
-    return base + '__v' + (parseInt(version) + 1);
+/**
+ * Increment a file object version.
+ * 
+ * @param object file
+ * @return file
+ */
+BaseAdapter.prototype.upsertVersion = function(file) {
+    file.version = file.version ? file.version + 1 : 1;
+    return file;
 };
 
 /**
- * Attach/update the version of provided file.
+ * Return the versioned file name.
  *
- * The default behavior is to ammend __v# prior to the extension.
- * If no extension exists, __v# will be appended to the end of the filename.
- *
- * Will also attach an `originalName` property.
- *
- * @param object file File format as specified in the manifest
- * @return object
+ * @param object file
+ * @return string
  */
-BaseAdapter.prototype.upsertVersion = function(file) {
+BaseAdapter.prototype.versionFilename = function(file) {
     var extension = path.extname(file.name);
-    var baseName = path.basename(file.name, extension);
-    var dirname = path.dirname(file.name);
-    dirname = dirname !== '.' ? dirname + '/' : '';
-    if (!file.originalName) {
-        file.originalName = file.name;
-    }
-    if (this.patterns.version.test(baseName)) {
-        file.name = dirname + baseName.replace(this.patterns.version, versionReplacer) + extension;
-    } else {
-        file.name = dirname + baseName + '__v1' + extension;
-    }
-    return file;
+    return [
+        path.dirname(file.name) + '/',
+        path.basename(file.name, extension),
+        '__v',
+        file.version,
+        extension
+    ].join('').replace(/^.\//, '');
 };
 
 /**
  * Transpose an array of file objects to have an upserted version for the filename.
  *
- * See BaseAdapter#upsertVersion
- *
  * @param array files
  * @return array
  */
 BaseAdapter.prototype.transposeVersions = function(files) {
-    return files.map(this.upsertVersion.bind(this));
+    return files.map(this.upsertVersion);
 };
 
 /**

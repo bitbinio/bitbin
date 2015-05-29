@@ -11,10 +11,7 @@ git repo, this tool is for you.
 
 By using an [npm](https://npmjs.org)-style JSON manifest file, you can track all assets and their versions locally, and publish remotely for your deployments.
 
-The goal of this project is to solve two problems:
-
-1. Having to store large assets in source code repositories (making them slow to clone) for deployments.
-2. Redeploying changes to images and other assets tend to need some manual cache busting.
+The goal of this project is to allow avoidance of storing large asset files in source code repositories (making them slow to clone) for deployments.
 
 ## Commands
 

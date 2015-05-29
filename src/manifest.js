@@ -35,18 +35,17 @@ Manifest.prototype.fileList = function() {
  * @return promise
  */
 Manifest.prototype.filterExisting = function(files) {
-    var deferred = q.defer();
-    this.transposeWithMD5(files.map(function(file) {
+    var filenameMapper = function(file) {
         return file.name;
-    })).then(function(hashedFiles) {
-        deferred.resolve(files.filter(function(file) {
-            return !hashedFiles.some(function(entry) {
-                return entry.name === file.name && entry.hash === file.hash;
+    };
+    return this.transposeWithMD5(files.map(filenameMapper))
+        .then(function(hashedFiles) {
+            return files.filter(function(file) {
+                return !hashedFiles.some(function(entry) {
+                    return entry.name === file.name && entry.hash === file.hash;
+                });
             });
-        }));
-    });
-
-    return deferred.promise;
+        });
 };
 
 /**
@@ -60,7 +59,7 @@ Manifest.prototype.localFiles = function() {
     this.config.retrieve().paths.forEach(function(path) {
         pathPromises.push(q.nfcall(glob, path, {nodir: true}).then(filterJunk));
     });
-    return !pathPromises.length ? 
+    return !pathPromises.length ?
         q.fcall(function() {
             throw new Error('No paths defined.');
         }) :
@@ -84,6 +83,29 @@ Manifest.prototype.transposeWithMD5 = function(files) {
 };
 
 /**
+ * Attach the proper version to local files based on their specification
+ * of the manifest.
+ *
+ * @param array files
+ * @return promise
+ */
+Manifest.prototype.attachVersions = function(files) {
+    return this.fileList()
+        .then(function(manifestFiles) {
+            var hash = {};
+            manifestFiles.forEach(function(file, i) {
+                hash[file.name] = [i, file];
+            });
+            files.forEach(function(file) {
+                if (hash.hasOwnProperty(file.name)) {
+                    file.version = hash[file.name][1].version;
+                }
+            });
+            return files;
+        });
+};
+
+/**
  * Filter the provided files based on files already in the manifest.
  *
  * @param Array files
@@ -101,6 +123,27 @@ Manifest.prototype.filterInManifest = function(files) {
 };
 
 /**
+ * Deduplicate the list of files.
+ *
+ * Only keep the most recent file versions.
+ *
+ * @param array files
+ * @return array
+ */
+var dedupe = function(files) {
+    var collection = {};
+    files.forEach(function(file) {
+        var filename = file.name;
+        if (!collection.hasOwnProperty(filename) || collection[filename].version < file.version) {
+            collection[filename] = file;
+        }
+    });
+    return Object.keys(collection).map(function(name) {
+        return collection[name];
+    });
+};
+
+/**
  * Update manifest for files that have been updated.
  *
  * @param array files
@@ -112,21 +155,23 @@ Manifest.prototype.update = function(files) {
         .then(function(manifestFiles) {
             var hash = {};
             manifestFiles.forEach(function(file, i) {
-                hash[file.name] = [i, file];
+                hash[file.name + file.version] = [i, file];
             });
             files.forEach(function(file) {
                 var entry = {
                     name: file.name,
+                    version: file.version,
                     hash: file.hash
                 };
-                if (hash.hasOwnProperty(file.originalName)) {
-                    manifestFiles[hash[file.originalName][0]] = entry;
+                if (hash.hasOwnProperty(file.name + file.version)) {
+                    manifestFiles[hash[file.name + file.version][0]] = entry;
                 } else {
                     manifestFiles.push(entry);
                 }
             });
             return manifestFiles;
         })
+        .then(dedupe)
         .then(function(manifestFiles) {
             return q.nfcall(
                 fs.writeFile,
