@@ -35,18 +35,17 @@ Manifest.prototype.fileList = function() {
  * @return promise
  */
 Manifest.prototype.filterExisting = function(files) {
-    var deferred = q.defer();
-    this.transposeWithMD5(files.map(function(file) {
+    var filenameMapper = function(file) {
         return file.name;
-    })).then(function(hashedFiles) {
-        deferred.resolve(files.filter(function(file) {
-            return !hashedFiles.some(function(entry) {
-                return entry.name === file.name && entry.hash === file.hash;
-            });
-        }));
-    });
-
-    return deferred.promise;
+    };
+    return this.transposeWithMD5(files.map(filenameMapper))
+        .then(function(hashedFiles) {
+            return files.filter(function(file) {
+                return !hashedFiles.some(function(entry) {
+                    return entry.name === file.name && entry.hash === file.hash;
+                });
+            })
+        });
 };
 
 /**
@@ -60,7 +59,7 @@ Manifest.prototype.localFiles = function() {
     this.config.retrieve().paths.forEach(function(path) {
         pathPromises.push(q.nfcall(glob, path, {nodir: true}).then(filterJunk));
     });
-    return !pathPromises.length ? 
+    return !pathPromises.length ?
         q.fcall(function() {
             throw new Error('No paths defined.');
         }) :
@@ -125,9 +124,9 @@ Manifest.prototype.filterInManifest = function(files) {
 
 /**
  * Deduplicate the list of files.
- * 
+ *
  * Only keep the most recent file versions.
- * 
+ *
  * @param array files
  * @return array
  */
