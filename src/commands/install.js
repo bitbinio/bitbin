@@ -10,6 +10,10 @@ Install.prototype.handle = function() {
         .then(this.adapter.ensureFilesExists.bind(this.adapter))
         .then(this.adapter.download.bind(this.adapter))
         .then(function(files) {
+            if (!files.length) {
+                return;
+            }
+            console.log('Files downloaded:');
             files.forEach(function(file) {
                 console.log('  * ' + file.name);
             });
