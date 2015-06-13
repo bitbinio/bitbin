@@ -42,7 +42,7 @@ AdapterInjector.prototype.inject = function() {
     } catch(e) {
         bottle.factory('adapter', function() {
             return function() {
-                console.error('Invalid adapter [%s]', path);
+                console.error('Invalid adapter [%s]', adapter);
             };
         });
     }
