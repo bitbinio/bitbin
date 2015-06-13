@@ -57,7 +57,7 @@ BaseAdapter.prototype.upload = function(files) {
 
 /**
  * Increment a file object version.
- * 
+ *
  * @param object file
  * @return file
  */
@@ -81,6 +81,20 @@ BaseAdapter.prototype.versionFilename = function(file) {
         file.version,
         extension
     ].join('').replace(/^.\//, '');
+};
+
+/**
+ * Extract version information from version formatted filename.
+ *
+ * @param string filename
+ * @return object
+ */
+BaseAdapter.prototype.extractVersion = function(filename) {
+    var match = filename.match(this.patterns.version);
+    return {
+        name: match[1] + match[3],
+        version: parseInt(match[2], 10)
+    };
 };
 
 /**
