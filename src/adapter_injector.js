@@ -25,15 +25,12 @@ AdapterInjector.prototype.inject = function() {
     var adapter = config.adapter;
     var bottle = require('bottlejs').pop('main');
     var adapterImpl;
-    var path = builtIn.indexOf(adapter) >= 0 ?
-        __dirname + '/adapters/' + adapter :
-        adapter;
     if (!config.isDefault && !adapter) {
         console.error('No upload adapter defined.');
         process.exit(1);
     }
     try {
-        adapterImpl = require(path);
+        adapterImpl = require(adapter);
         bottle.factory('adapter', adapterImpl);
         bottle.decorator('adapter', function(adapter) {
             if (!isValidAdapterInterface(adapter)) {
