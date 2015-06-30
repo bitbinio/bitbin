@@ -13,6 +13,63 @@ By using an [npm](https://npmjs.org)-style JSON manifest file, you can track all
 
 The goal of this project is to allow avoidance of storing large asset files in source code repositories (making them slow to clone) for deployments.
 
+## Quick Start
+
+#### Install bitbin
+
+```
+npm i -g bitbin
+```
+
+#### Initialize bitbin in your project.
+
+```
+bitbin init
+```
+
+* Select your adapter. (`bitbin-local`)
+* Enter your local upload path. This is specific to the `bitbin-local` adapter. In this case, we'll select `/tmp/upload`.
+* Enter the path to your assets. This should be a glob path that will grab all assets you want to upload. In this case, we want everything from our `img/` folder in this project, so we will enter: `img/**/*`.
+
+This will produce the following `bitbin.json` in your project:
+
+```json
+{
+    "adapter": "bitbin-local",
+    "paths": [
+        "img/**/*"
+    ],
+    "options": {
+        "uploadPath": "/tmp/upload"
+    }
+}
+```
+
+If you need more granular control (ie multiple paths), you can edit the `bitbin.json` to include an additional paths in the array. For example:
+
+```json
+{
+    "adapter": "bitbin-local",
+    "paths": [
+        "img/**/*",
+        "sounds/**/*.mp3"
+    ],
+    "options": {
+        "uploadPath": "/tmp/upload"
+    }
+}
+```
+
+#### Publish your assets
+
+```
+bitbin publish
+```
+
+This will push all files in your `img/` directory of your project to the upload path we specified earlier. This will produce a `bitbin.manifest.json` which should list all files that were uploaded with their version.
+
+You should commit both the `bitbin.json` and the `bitbin.manifest.json` to your project, but ignore anything in the `img/` folder. Bitbin will now manage these assets of your application outside of your [VCS](https://en.wikipedia.org/wiki/Revision_control).
+
 ## Commands
 
 ### Init
@@ -51,19 +108,15 @@ This library has equip-able adapters:
 
 * [Amazon S3](https://github.com/bitbinio/bitbin-s3) (`bitbin-s3`) - _to be implemented_
 * [FTP](https://github.com/bitbinio/bitbin-ftp) (`bitbin-ftp`) - _to be implemented_
-* [Local](https://github.com/bitbinio/bitbin-local) (`bitbin-local`) - _wip_
+* [Local](https://github.com/bitbinio/bitbin-local) (`bitbin-local`)
 
-To use any of these adapters, install them via their [npm](https://npmjs.org) packages:
-
-```
-npm install bitbin-local
-```
+These adapters are considered built in and are packaged with Bitbin.
 
 ### Custom Adapters
 
 In the `bitbin.json` configuration, the `adapter` property can be used to define
 a path to a custom adapter that inherits a [base adapter](https://github.com/cjsaylor/bitbin/blob/master/src/base_adapter.js)
-and implements its prototypical methods.
+and implements its prototypical methods. All of the built-in adapters use the base adapter and are implemented in standalone libraries. You can use these as an example of how to implement your own.
 
 #### Example custom adapter
 
